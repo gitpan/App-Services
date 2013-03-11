@@ -2,7 +2,7 @@
 #
 package App::Services;
 {
-  $App::Services::VERSION = '0.001';
+  $App::Services::VERSION = '0.002';
 }
 
 1;
@@ -17,7 +17,7 @@ App::Services - Makes reusable services easy
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 SYNOPSIS
 
@@ -95,7 +95,7 @@ Sean Blanton <sean@blanton.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Sean Blanton.
+This software is copyright (c) 2013 by Sean Blanton.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

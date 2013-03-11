@@ -1,6 +1,6 @@
 package App::Services::DB::Exec::Service;
 {
-  $App::Services::DB::Exec::Service::VERSION = '0.001';
+  $App::Services::DB::Exec::Service::VERSION = '0.002';
 }
 
 use Moo;
@@ -118,7 +118,7 @@ App::Services::DB::Exec::Service
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 AUTHOR
 
@@ -126,7 +126,7 @@ Sean Blanton <sean@blanton.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Sean Blanton.
+This software is copyright (c) 2013 by Sean Blanton.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

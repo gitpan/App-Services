@@ -17,6 +17,9 @@ lib/App/Services/Email/Service.pm
 lib/App/Services/Forker/Container.pm
 lib/App/Services/Forker/Role.pm
 lib/App/Services/Forker/Service.pm
+lib/App/Services/IPC/ZeroMQ/Container.pm
+lib/App/Services/IPC/ZeroMQ/Role.pm
+lib/App/Services/IPC/ZeroMQ/Service.pm
 lib/App/Services/Logger/Container.pm
 lib/App/Services/Logger/Role.pm
 lib/App/Services/Logger/Service.pm

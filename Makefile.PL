@@ -28,6 +28,8 @@ my %WriteMakefileArgs = (
     "Carp" => 0,
     "DBI" => 0,
     "KiokuDB" => 0,
+    "KiokuDB::Backend::DBI" => 0,
+    "Log::Dispatch::Screen" => 0,
     "Log::Log4perl" => 0,
     "Moo" => 0,
     "Moo::Role" => 0,
@@ -37,7 +39,7 @@ my %WriteMakefileArgs = (
     "Net::SMTP" => 0,
     "common::sense" => 0
   },
-  "VERSION" => "0.001",
+  "VERSION" => "0.002",
   "test" => {
     "TESTS" => "t/App/Services/DB/*.t t/App/Services/Forker/*.t t/App/Services/Logger/*.t t/App/Services/ObjStore/*.t"
   }

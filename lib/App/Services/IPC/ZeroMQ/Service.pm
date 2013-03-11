@@ -16,16 +16,16 @@ has kdb => ( is => 'rw' );
 has kdb_dsn => (
 	is      => 'rw',
 	default => sub { "dbi:SQLite:dbname=" . $_[0]->obj_store_file },
-	lazy    => 1,
+	lazy => 1,
 );
 
 has obj_store_file => (
-	is       => 'rw',
-	required => 1,
+	is => 'rw',
+	default => "/tmp/.app-services-obj-store-$$.db",
 );
 
 has label => (
-	is      => 'rw',
+	is => 'rw',
 	default => sub { $$ },
 );
 
@@ -40,7 +40,7 @@ sub init_object_store {
 
 sub delete {
 	my $s = shift or die;
-
+	
 	$s->kdb->delete(@_);
 
 }
@@ -50,7 +50,7 @@ sub delete_object_store {
 
 	unlink $s->obj_store_file if -f $s->obj_store_file;
 
-	$s->log->warn("Couldn' t delete object store ") if -d $s->obj_store_file;
+	$s->log->warn("Couldn't delete object store") if -d $s->obj_store_file;
 
 	$s->kdb(undef);
 
@@ -61,17 +61,16 @@ sub delete_object_store {
 sub add_object {
 
 	my $s   = shift or die;
-	my $obj = shift or $s->log->fatal( $s->label . " : No object passed " );
+	my $obj = shift or $s->log->fatal($s->label . ": No object passed");
 	my $id  = shift;
 
 	my $kdb = $s->kdb;
 	my $log = $s->log;
 
-	$log->debug( $s->label . " Entering add_object " );
+	$log->debug($s->label . " Entering add_object");
 
 	unless ($kdb) {
-		$s->log->logconfess(
-			$s->label . " : Must call 'init_object_store' first " );
+		$s->log->logconfess($s->label . ": Must call 'init_object_store' first");
 	}
 
 	my $new_id;
@@ -79,7 +78,7 @@ sub add_object {
 	my $rc;
 
 	do {
-		$log->debug( $s->label . " : Inserting obj " );
+		$log->debug($s->label . ": Inserting obj");
 
 		eval {
 			($new_id) = $kdb->txn_do(
@@ -88,8 +87,7 @@ sub add_object {
 					if ($id) {
 						$kdb->insert( $id => $obj );
 
-					}
-					else {
+					} else {
 						$kdb->insert($obj);
 
 					}
@@ -98,21 +96,12 @@ sub add_object {
 		};
 
 		if ($@) {
-			$s->log->warn(
-				    $s->label
-				  . " : failed to commit to("
-				  . $s->kdb
-				  . ") : [$@],
-		  sleeping
-		  for random interval
-		  and retrying "
-			);
+			$s->log->warn( $s->label . ": failed to commit to (" . $s->kdb . "): [ $@ ], sleeping for random interval and retrying" );
 			my $i = rand(0.1);
 			sleep $i;
 
-		}
-		else {
-			$log->debug( $s->label . " : successfully comitted " );
+		} else {
+			$log->debug($s->label . ": successfully comitted");
 			$rc = 1;
 		}
 
@@ -124,13 +113,12 @@ sub add_object {
 
 sub get_object {
 	my $s  = shift or die;
-	my $id = shift or $s->log->fatal( $s->label . " : No object id passed " );
+	my $id = shift or $s->log->fatal($s->label . ": No object id passed");
 
 	my $kdb = $s->kdb;
 
 	unless ($kdb) {
-		$s->log->logconfess(
-			$s->label . " : Must call 'init_object_store' first " );
+		$s->log->logconfess($s->label . ":Must call 'init_object_store' first");
 	}
 
 	my $obj;
@@ -151,8 +139,7 @@ sub all_objects {
 	my $kdb = $s->kdb;
 
 	unless ($kdb) {
-		$s->log->logconfess(
-			$s->label . " : Must call 'init_object_store' first " );
+		$s->log->logconfess($s->label . ":Must call 'init_object_store' first");
 	}
 
 	return $kdb->all_objects->items;

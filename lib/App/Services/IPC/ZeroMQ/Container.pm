@@ -1,12 +1,17 @@
-package App::Services::Logger::Container;
+package App::Services::ZeroMQ::Container;
 {
-  $App::Services::Logger::Container::VERSION = '0.002';
+  $App::Services::ZeroMQ::Container::VERSION = '0.002';
 }
 
-use Moo;
+use Moose;
+
+use common::sense;
+
 use Bread::Board;
 
 extends 'Bread::Board::Container';
+
+use App::Services::Logger::Container;
 
 sub BUILD {
 	$_[0]->build_container;
@@ -14,37 +19,47 @@ sub BUILD {
 
 has log_conf => (
 	is      => 'rw',
-	default => sub { " 
+	default => sub {
+		\qq/ 
 log4perl.rootLogger=INFO, main
 log4perl.appender.main=Log::Log4perl::Appender::Screen
 log4perl.appender.main.layout   = Log::Log4perl::Layout::SimpleLayout
-" },
+/;
+	},
 );
 
 has +name => (
-	is      => 'rw',
-	default => sub { 'logger' },
+	is => 'rw',
+
+	#	isa     => 'Str',
+	default => sub { 'zero_mq_container' },
 );
 
 sub build_container {
 	my $s = shift;
 
-	return container $s => as {
+	my $log_cntnr = App::Services::Logger::Container->new(
+		log_conf => $s->log_conf,
+		name     => 'log'
+	);
 
-		service 'log_conf' => $s->log_conf;
+	container $s => as {
 
-		service 'logger_svc' => (
-			class        => 'App::Services::Logger::Service',
-			lifecycle    => 'Singleton',
-			dependencies => { log_conf => 'log_conf' },
-
+		service 'ipc_zeromq_svc' => (
+			class        => 'App::Services::IPC::ZeroMQ::Service',
+			dependencies => {
+				logger_svc     => depends_on('log/logger_svc'),
+			}
 		);
 
 	};
 
+	$s->add_sub_container($log_cntnr);
+
+	return $s;
 }
 
-no Moo;
+no Moose;
 
 1;
 
@@ -54,7 +69,7 @@ __END__
 
 =head1 NAME
 
-App::Services::Logger::Container
+App::Services::ZeroMQ::Container
 
 =head1 VERSION
 

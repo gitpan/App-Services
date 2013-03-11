@@ -1,6 +1,6 @@
 package App::Services::Remote::Container;
 {
-  $App::Services::Remote::Container::VERSION = '0.001';
+  $App::Services::Remote::Container::VERSION = '0.002';
 }
 
 use Moose;
@@ -56,7 +56,7 @@ App::Services::Remote::Container
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 AUTHOR
 
@@ -64,7 +64,7 @@ Sean Blanton <sean@blanton.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Sean Blanton.
+This software is copyright (c) 2013 by Sean Blanton.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
